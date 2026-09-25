@@ -1,0 +1,3 @@
+Some random text
+would be used for testing
+third line of the file
