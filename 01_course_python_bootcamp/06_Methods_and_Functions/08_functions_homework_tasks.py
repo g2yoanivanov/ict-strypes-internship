@@ -12,6 +12,7 @@ def vol(rad):
 def ran_check(num, low, high):
     return num >= low and num <= high
 
+
 # Task 3
 def up_low(s):
     sample = s
