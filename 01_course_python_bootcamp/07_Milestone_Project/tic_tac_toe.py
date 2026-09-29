@@ -1,9 +1,17 @@
+"""Tic Tac Toe Game"""
+
 row1 = [' ', '|', ' ', '|', ' ']
 row2 = [' ', '|', ' ', '|', ' ']
 row3 = [' ', '|', ' ', '|', ' ']
 dashes = ['-', '-', '-', '-', '-']
 
 def display_board(rows):
+    """
+    Printing the tic-tac-toe board on the user's screen.
+
+    Args:
+        rows: List of lists (all the rows needed for the printing of the board)
+    """
     print()
     for row in rows:
         for cell in row:
@@ -13,6 +21,9 @@ def display_board(rows):
 
 
 def team_choice():
+    """
+    Giving Player 1 the option to select X or O.
+    """
     while True:
         player1 = input('Player 1: Select X or O ')
 
@@ -29,6 +40,15 @@ def team_choice():
 
 
 def position_available(position):
+    """
+    Checking if the selected postion is already occupied.
+
+    Args:
+        position: Integer (1-9) representing the selected cell
+
+    Returns:
+        bool: True if the cell is empty, False otherwise
+    """
     if position in [1, 2, 3]:
         index = (position - 1) * 2
         return row1[index] == ' '
@@ -39,10 +59,17 @@ def position_available(position):
 
     if position in [7, 8, 9]:
         index = (position - 7) * 2
-        return row3[index] == ' ' 
+        return row3[index] == ' '
 
 
 def update_board(position, player):
+    """
+    Updating the selected cell with the player's symbol (X or O).
+
+    Args:
+        position: Integer (1-9) representing the selected cell 
+        player: String representing the player's symbol (X or O)
+    """
     global row1
     global row2
     global row3
@@ -61,6 +88,12 @@ def update_board(position, player):
 
 
 def take_user_input():
+    """
+    Getting the selected by the user cell (1-9).
+
+    Returns:
+        Integer (1-9) representing the selected cell
+    """
     while True:
         position = input('Select a cell (1-9):')
 
@@ -69,12 +102,12 @@ def take_user_input():
 
             if position not in range(1, 10):
                 print('The selected cell must be between 1 and 9!')
+                continue
 
             if position_available(position):
                 break
 
-            elif not position_available(position):
-                print('Cell already occupied!')
+            print('Cell already occupied!')
 
 
         else:
@@ -84,6 +117,17 @@ def take_user_input():
 
 
 def check_winner(rows, player):
+    """
+    Checking if the game has a winner.
+
+    Args:
+        rows: List of lists (all the board's rows)
+        player: String representing the player's symbol (X or O)
+
+    Returns:
+        bool: True if there is a row, column or a diagonal full with the same symbol
+        False otherwise
+    """
     # Checking rows
     for row in rows:
         if row[::2] == [player] * 3:
@@ -120,6 +164,16 @@ def check_winner(rows, player):
 
 
 def swap_turns(turn):
+    """
+    Changing the players' turns.
+
+    Args:
+        turn: Boolean value represinting Player 1's turn
+
+    Returns:
+        bool: True if turn is False,
+            False otherwise
+    """
     if turn:
         return False
 
@@ -127,6 +181,9 @@ def swap_turns(turn):
 
 
 def play_game():
+    """
+    Simulating 1 game
+    """
     global row1
     global row2
     global row3
@@ -165,7 +222,7 @@ def play_game():
             print()
             break
 
-        elif check_winner(board_rows, player2):
+        if check_winner(board_rows, player2):
             board_rows = [row1, dashes, row2, dashes, row3]
             display_board(board_rows)
             print('Player 2 WINS!!!')
@@ -175,6 +232,12 @@ def play_game():
         player1_turn = swap_turns(player1_turn)
 
 def restart_game():
+    """
+    Asking the user if they want to restart the game.
+
+    Returns:
+        bool: Based on the user's input
+    """
     while True:
         restart = input('Play again? (yes/no): ')
         print()
@@ -184,31 +247,40 @@ def restart_game():
         if restart not in ['yes', 'no']:
             continue
 
-        elif restart == 'yes':
+        if restart == 'yes':
             return True
 
-        elif restart == 'no':
+        if restart == 'no':
             return False
 
 def start_game():
+    """
+    Asking the user if they want to start the game.
+    
+    Returns:
+        bool: Based on the user's input
+    """
     while True:
         start = input('Start the game? (yes/no): ')
 
         print()
-    
+
         start.lower()
-    
+
         if start not in ['yes', 'no']:
             continue
-    
-        elif start == 'yes':
+
+        if start == 'yes':
             return True
-    
-        elif start == 'no':
+
+        if start == 'no':
             return False
 
 
 def main():
+    """
+    The main function simulating the entire game.
+    """
     while True:
         print('OXOXO Tic Tac Toe XOXOX')
         print()
