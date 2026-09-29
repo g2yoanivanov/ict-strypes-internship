@@ -5,15 +5,15 @@ class BankAccount:
         self.owner = owner
         self.balance = balance
 
-    def deposit(self, sum):
-        self.balance = self.balance + sum
+    def deposit(self, amount):
+        self.balance = self.balance + amount
 
-    def withdraw(self, sum):
-        if sum > self.balance:
+    def withdraw(self, amount):
+        if amount > self.balance:
             print('Funds Unavailable')
 
         else:
-            self.balance = self.balance - sum
+            self.balance = self.balance - amount
 
     def __str__(self):
         return f'Account owner: {self.owner}\nAccount balance: {self.balance}'
