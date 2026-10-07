@@ -4,6 +4,8 @@ import os
 from exceptions.file_write_exception import FileWriteException
 
 class Writer:
+    first_call = True
+
     def save_data(self, header, data, location):
         """
         Write data to a CSV  file.
@@ -14,16 +16,20 @@ class Writer:
             location: Path to the output CSV file
         """
         try:
+            if self.first_call:
+                self.first_call = False
+
+                if os.path.exists(location):
+                    os.remove(location)
+                
             file_exists = os.path.exists(location)
 
-            mode = 'a' if file_exists else mode = 'w'
-
-            with open(location, mode=mode, newline='', encoding='utf-8') as file:
+            with open(location, mode='a', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file)
 
                 if not file_exists:
                     writer.writerow(header)
 
                 writer.writerows(data)
-        except OSError:
-            raise FileWriteException('Failed to write to location')
+        except OSError as e:
+            raise FileWriteException('Failed to write to location. {}'.format(e))
