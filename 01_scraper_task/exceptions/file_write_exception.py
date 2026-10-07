@@ -1,0 +1,2 @@
+class FileWriteException(Exception):
+    pass
