@@ -12,7 +12,11 @@ class NewsScraper(Scraper):
     Scraper class for F1 news.
     """
     URL = 'https://www.motorsport.com/f1/news/'
-    DATA_TYPE = ['Article Titles', 'Article Links', 'Article Times']
+    DATA_TYPE = [
+        'Article Titles',
+        'Article Links',
+        'Article Times'
+    ]
     PATH = os.path.join('.', 'data', 'f1_news.csv')
 
     def __init__(self):
@@ -24,7 +28,10 @@ class NewsScraper(Scraper):
 
         soup = BeautifulSoup(response.text, 'lxml')
 
-        articles = soup.select('.ms-grid')[0]
+        articles = soup.select_one('.ms-grid')
+
+        if articles is None:
+            raise ScrapingException('Could not find article section')
 
         title_tags = articles.select('.ms-item__title')
         link_tags = articles.select('a')
