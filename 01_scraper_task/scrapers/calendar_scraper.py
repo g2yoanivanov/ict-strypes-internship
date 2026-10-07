@@ -72,18 +72,18 @@ class CalScraper(Scraper):
             for winner in winner_tags:
                 winners.append(winner.getText())
 
-            if len(grand_prix) == len(circuits) == len(dates):
-                self.stats['records'] += len(grand_prix)
-
-                calendar = list(zip_longest(grand_prix, circuits, dates, winners, fillvalue='TBD'))
-                result.extend(calendar)
-
-            elif len(winners) > len(grand_prix):
+            if len(winners) > len(grand_prix):
                 raise ScrapingException(
                     'Missmatched data counts: '
                     f'Grand Prix: {len(grand_prix)} '
                     f'Winners: {len(winners)} '
                 )
+
+            elif len(grand_prix) == len(circuits) == len(dates):
+                self.stats['records'] += len(grand_prix)
+
+                calendar = list(zip_longest(grand_prix, circuits, dates, winners, fillvalue='TBD'))
+                result.extend(calendar)
 
             else:
                 raise ScrapingException(
@@ -96,7 +96,3 @@ class CalScraper(Scraper):
             year -= 1
 
         return result
-
-
-    def save_data(self):
-        return super().save_data()

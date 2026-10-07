@@ -22,9 +22,3 @@ class Scraper(ABC):
         """
         Retrieve data from the selected source.
         """
-
-    @abstractmethod
-    def save_data(self):
-        """
-        Write the scraped data to a CSV file.
-        """

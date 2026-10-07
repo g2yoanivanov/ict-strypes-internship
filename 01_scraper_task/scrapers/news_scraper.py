@@ -64,7 +64,3 @@ class NewsScraper(Scraper):
                 f'links: {len(links)} '
                 f'times: {len(times)} '
             )
-
-    def save_data(self):
-        if os.path.exists(self.PATH):
-            pass
