@@ -11,7 +11,13 @@ from exceptions.scraping_exception import ScrapingException
 
 class CalScraper(Scraper):
     """
-    Scraper class for F1 calendar
+    Scraper class for F1 calendar.
+
+    Extracted data:
+        Grand Prix: Official name of the Formula 1 Grand Prix
+        Race Circuit: Name of the circuit on which the race is held
+        Race Date: Scheduled date of the race weekend
+        Race Winner: Winning driver of the race, or 'TBD' if the race has not yet taken place.
     """
     # 2013 - 2027
     URL = 'https://www.f1-fansite.com/f1-calendar/{}-f1-calendar/'
@@ -19,9 +25,9 @@ class CalScraper(Scraper):
     # https://www.f1-fansite.com/f1-calendar/f1-{}-calendar-schedule/
     DATA_TYPE = [
         'Grand Prix',
-        'Circuit',
-        'Date',
-        'Winner'
+        'Race Circuit',
+        'Race Date',
+        'Race Winner'
     ]
     PATH = os.path.join('.', 'data', 'f1_calendar.csv')
 

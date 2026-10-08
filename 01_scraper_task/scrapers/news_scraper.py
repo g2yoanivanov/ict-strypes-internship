@@ -11,12 +11,17 @@ from exceptions.scraping_exception import ScrapingException
 class NewsScraper(Scraper):
     """
     Scraper class for F1 news.
+
+    Extracted data:
+        Article Title: Headline of the news article
+        Article Time: Time elapsed between the article's publication and the moment of data extraction
+        Article Link: URL leading to the full article
     """
     URL = 'https://www.motorsport.com/f1/news/'
     DATA_TYPE = [
-        'Article Titles',
-        'Article Times',
-        'Article Links'
+        'Article Title',
+        'Article Time',
+        'Article Link'
     ]
     PATH = os.path.join('.', 'data', 'f1_news.csv')
 

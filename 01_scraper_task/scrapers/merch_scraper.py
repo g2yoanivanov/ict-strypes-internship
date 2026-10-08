@@ -10,6 +10,11 @@ from exceptions.scraping_exception import ScrapingException
 class MerchScraper(Scraper):
     """
     Scraper class for F1 Merch.
+
+    Extracted data:
+        Item Name: Name of the product as displayed on the website
+        Item Price: Current product price in EUR
+        Item Link: URL leading to the product's details page
     """
     URL = 'https://fanraces.bg/category/formula-1?page={}'
     DATA_TYPE = [
@@ -42,9 +47,12 @@ class MerchScraper(Scraper):
             if section is None:
                 raise ScrapingException('Could not find item section')
 
+            # If the item is discounted ignore the old price (the non-discounted price)
             for tag in section.select('._product-price-old'):
                 tag.decompose()
 
+            # If the item is discounted ignore the discount value 
+            # (The difference between the original and the discounted price)
             for tag in section.select('._product-discount._product-discount-fixed'):
                 tag.decompose()
 
@@ -53,7 +61,6 @@ class MerchScraper(Scraper):
 
             items = [item.getText() for item in item_tags]
             prices = [price.getText() for price in price_tags]
-            print(prices)
             links = [link['href'] for link in item_tags]
 
             if len(items) == len(prices) == len(links):
