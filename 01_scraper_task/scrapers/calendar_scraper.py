@@ -53,28 +53,19 @@ class CalScraper(Scraper):
             date_tags = races.select('.f1fs-race-meta__date')
             winner_tags = races.select('.f1fs-race-winner__driver')
 
-            grand_prix = []
-            circuits = []
+            grand_prix = [gp.getText() for gp in grand_prix_tags]
+            circuits = [circuit.getText() for circuit in circuit_tags]
+            winners = [winner.getText() for winner in winner_tags]
+
             dates = []
-            winners = []
-
-            for gp in grand_prix_tags:
-                grand_prix.append(gp.getText())
-
-            for circuit in circuit_tags:
-                circuits.append(circuit.getText())
-
             for tag in date_tags:
                 time = tag.select_one('time')
                 date = time['datetime']
                 dates.append(date)
 
-            for winner in winner_tags:
-                winners.append(winner.getText())
-
             if len(winners) > len(grand_prix):
                 raise ScrapingException(
-                    'Missmatched data counts: '
+                    'Mismatched data counts: '
                     f'Grand Prix: {len(grand_prix)} '
                     f'Winners: {len(winners)} '
                 )
@@ -82,12 +73,12 @@ class CalScraper(Scraper):
             elif len(grand_prix) == len(circuits) == len(dates):
                 self.stats['records'] += len(grand_prix)
 
-                calendar = list(zip_longest(grand_prix, circuits, dates, winners, fillvalue='TBD'))
-                result.extend(calendar)
+                records = list(zip_longest(grand_prix, circuits, dates, winners, fillvalue='TBD'))
+                result.extend(records)
 
             else:
                 raise ScrapingException(
-                    'Missmatched data counts: '
+                    'Mismatched data counts: '
                     f'Grand Prix: {len(grand_prix)} '
                     f'Circuits: {len(circuits)} '
                     f'Dates: {len(dates)} '

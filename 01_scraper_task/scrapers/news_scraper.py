@@ -38,14 +38,13 @@ class NewsScraper(Scraper):
         link_tags = articles.select('a')
         time_tags = articles.select('.ms-item__date')
 
-        titles = []
+        titles = [title.getText() for title in title_tags]
+        times = [time.getText().strip() for time in time_tags]
+
         links = []
-        times = []
-
-        for title in title_tags:
-            titles.append(title.getText())
-
         for link in link_tags:
+            # Most of the articles are in the MotorSport site (and the link is not full)
+            # But there are cases where links redirect you to other sites
             full_link = 'https://www.motorsport.com/' + link['href']
             
             if link['href'].startswith('http'):
@@ -53,12 +52,9 @@ class NewsScraper(Scraper):
 
             links.append(full_link)
 
-        for time in time_tags:
-            times.append(time.getText().strip())
-
         if len(times) > len(titles):
             raise ScrapingException(
-                'Missmatched data counts: '
+                'Mismatched data counts: '
                 f'titles: {len(titles)} '
                 f'times: {len(times)} '
             )
@@ -71,7 +67,7 @@ class NewsScraper(Scraper):
 
         else:
             raise ScrapingException(
-                'Missmatched data counts: '
+                'Mismatched data counts: '
                 f'titles: {len(titles)} '
                 f'links: {len(links)} '
             )
