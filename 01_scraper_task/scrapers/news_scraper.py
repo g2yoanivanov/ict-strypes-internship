@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from itertools import zip_longest
 import requests
 import os
 
@@ -14,8 +15,8 @@ class NewsScraper(Scraper):
     URL = 'https://www.motorsport.com/f1/news/'
     DATA_TYPE = [
         'Article Titles',
-        'Article Links',
-        'Article Times'
+        'Article Times',
+        'Article Links'
     ]
     PATH = os.path.join('.', 'data', 'f1_news.csv')
 
@@ -46,15 +47,26 @@ class NewsScraper(Scraper):
 
         for link in link_tags:
             full_link = 'https://www.motorsport.com/' + link['href']
+            
+            if link['href'].startswith('http'):
+                full_link = link['href']
+
             links.append(full_link)
 
         for time in time_tags:
             times.append(time.getText().strip())
 
-        if len(titles) == len(links) == len(times):
+        if len(times) > len(titles):
+            raise ScrapingException(
+                'Missmatched data counts: '
+                f'titles: {len(titles)} '
+                f'times: {len(times)} '
+            )
+
+        elif len(titles) == len(links):
             self.stats['records'] = len(titles)
 
-            result = list(zip(titles, links, times))
+            result = list(zip_longest(titles, times, links, fillvalue='N/A'))
             return result
 
         else:
@@ -62,5 +74,4 @@ class NewsScraper(Scraper):
                 'Missmatched data counts: '
                 f'titles: {len(titles)} '
                 f'links: {len(links)} '
-                f'times: {len(times)} '
             )
