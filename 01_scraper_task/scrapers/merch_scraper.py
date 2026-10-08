@@ -14,9 +14,10 @@ class MerchScraper(Scraper):
     URL = 'https://fanraces.bg/category/formula-1?page={}'
     DATA_TYPE = [
         'Item Name',
-        'Price',
-        'Link'
+        'Item Price',
+        'Item Link'
     ]
+    PATH = os.path.join('.', 'data', 'f1_merch.csv')
 
     def __init__(self):
         super().__init__()
@@ -41,11 +42,18 @@ class MerchScraper(Scraper):
             if section is None:
                 raise ScrapingException('Could not find item section')
 
+            for tag in section.select('._product-price-old'):
+                tag.decompose()
+
+            for tag in section.select('._product-discount._product-discount-fixed'):
+                tag.decompose()
+
             item_tags = section.select('h3 a')
             price_tags = section.select('.bgn2eur-primary-currency')
 
             items = [item.getText() for item in item_tags]
             prices = [price.getText() for price in price_tags]
+            print(prices)
             links = [link['href'] for link in item_tags]
 
             if len(items) == len(prices) == len(links):
