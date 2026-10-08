@@ -26,6 +26,6 @@ class Scraper(ABC):
     def __str__(self):
         info = f"Site scraped: {self.URL}\n" \
         f"File location: {self.PATH}\n" \
-        f"Data types: {self.DATA_TYPE}"
-        
+        f"Data types extracted: {self.DATA_TYPE}"
+
         return info

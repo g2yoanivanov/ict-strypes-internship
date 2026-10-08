@@ -4,6 +4,11 @@ from scrapers.merch_scraper import MerchScraper
 
 from data_writer import Writer
 
+from exceptions.file_write_exception import FileWriteException
+from exceptions.scraping_exception import ScrapingException
+
+import requests
+
 
 INFO = "Options:\n" \
     "0. Exit\n" \
@@ -40,6 +45,8 @@ def main():
         'merch': 0
     }
 
+    successful_scrape = False
+
     print('SCRAPING F1')
     print()
     while True:
@@ -72,8 +79,6 @@ def main():
                 scraper = MerchScraper()
                 stat_key = 'merch'
 
-            session_stats[stat_key] = str(scraper)
-
             print('Extracting data...')
 
             data = scraper.scrape()
@@ -83,7 +88,9 @@ def main():
             print('Saving to file...')
             writer.save_data(header, data, path)
 
+            print()
             print('Done!')
+            print()
             print('Summary:')
 
             for key, val in scraper.stats.items():
@@ -91,8 +98,24 @@ def main():
                 
             print()
 
+        except requests.RequestException as e:
+            print(f'Network error: {e}')
+
+        except ScrapingException as e:
+            print(f'Scraping error: {e}')
+
+        except FileWriteException as e:
+            print(f'File error: {e}')
+
         except Exception as e:
-            print(e)
+            print(f'Unexpected error: {e}')
+
+        else:
+            successful_scrape = True
+
+        finally:
+            if successful_scrape:
+                session_stats[stat_key] = str(scraper)
 
 
 if __name__ == '__main__':
