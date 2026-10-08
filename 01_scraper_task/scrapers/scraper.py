@@ -22,3 +22,10 @@ class Scraper(ABC):
         """
         Retrieve data from the selected source.
         """
+
+    def __str__(self):
+        info = f"Site scraped: {self.URL}\n" \
+        f"File location: {self.PATH}\n" \
+        f"Data types: {self.DATA_TYPE}"
+        
+        return info
