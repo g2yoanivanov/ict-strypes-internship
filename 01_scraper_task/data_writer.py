@@ -19,8 +19,13 @@ class Writer:
             if self.first_call:
                 self.first_call = False
 
-                if os.path.exists(location):
-                    os.remove(location)
+                folder = os.path.dirname(location)
+
+                for filename in os.listdir(folder):
+                    filepath = os.path.join(folder, filename)
+
+                    if os.path.isfile(filepath):
+                        os.remove(filepath)
                 
             file_exists = os.path.exists(location)
 
