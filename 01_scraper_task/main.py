@@ -2,7 +2,7 @@ from scrapers.news_scraper import NewsScraper
 from scrapers.calendar_scraper import CalScraper
 from scrapers.merch_scraper import MerchScraper
 
-from data_writer import Writer
+from writers.csv_writer import CSVWriter
 
 from exceptions.file_write_exception import FileWriteException
 from exceptions.scraping_exception import ScrapingException
@@ -21,7 +21,7 @@ def get_user_input():
     while True:
         try:
             print(INFO)
-            option = input('User choice: ')
+            option = input('Enter a number: ')
             print()
 
             if option not in ['0', '1', '2', '3']:
@@ -37,15 +37,16 @@ def get_user_input():
 
 
 def main():
-    writer = Writer()
+    writer = CSVWriter()
 
     session_stats = {
-        'news': 0,
-        'calendar': 0,
-        'merch': 0
+        'news': None,
+        'calendar': None,
+        'merch': None
     }
 
     successful_scrape = False
+    total_records = 0
 
     print('SCRAPING F1')
     print()
@@ -61,10 +62,11 @@ def main():
             if option == '0':
                 print('Session summary:')
                 for _, val in session_stats.items():
-                    if val != 0:
+                    if val is not None:
                         print(val)
                         print()
 
+                print(f'Total records extracted: {total_records}')
                 break
 
             if option == '1':
@@ -93,8 +95,9 @@ def main():
             print()
             print('Summary:')
 
-            for key, val in scraper.stats.items():
-                print(f'{key.title()}: {val}')
+            print(scraper)
+            print(f'Records extracted: {scraper.stats['records']}')
+            total_records += scraper.stats['records']
                 
             print()
 

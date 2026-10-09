@@ -11,10 +11,7 @@ class Scraper(ABC):
 
     def __init__(self):
         self.stats = {
-            'site': self.URL,
-            'data type': self.DATA_TYPE,
             'records': 0,
-            'saved to': self.PATH
         }
 
     @abstractmethod
@@ -24,8 +21,14 @@ class Scraper(ABC):
         """
 
     def __str__(self):
+        data_type_str = "".join(
+            f"- {data}\n"
+            for data in self.DATA_TYPE
+        )
+
         info = f"Site scraped: {self.URL}\n" \
         f"File location: {self.PATH}\n" \
-        f"Data types extracted: {self.DATA_TYPE}"
+        f"Data types extracted:\n" \
+        f"{data_type_str}"
 
         return info
