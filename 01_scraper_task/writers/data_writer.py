@@ -19,6 +19,8 @@ class Writer(ABC):
 
             folder = os.path.dirname(location)
 
+            os.makedirs(folder, exist_ok=True)
+
             for filename in os.listdir(folder):
                 filepath = os.path.join(folder, filename)
 
