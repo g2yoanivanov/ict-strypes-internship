@@ -9,10 +9,11 @@ class Scraper(ABC):
     DATA_TYPE = None
     PATH = None
 
-    def __init__(self):
+    def __init__(self, extension):
         self.stats = {
             'records': 0,
         }
+        self.extension = extension
 
     @abstractmethod
     def scrape(self):
@@ -27,7 +28,7 @@ class Scraper(ABC):
         )
 
         info = f"Site scraped: {self.URL}\n" \
-        f"File location: {self.PATH}\n" \
+        f"File location: {self.PATH.format(self.extension)}\n" \
         f"Data types extracted:\n" \
         f"{data_type_str}"
 

@@ -14,7 +14,7 @@ class CSVWriter(Writer):
     """
     Writer class for CSV format.
     """
-    def save_data(self, header, data, location):
+    def save_data(self, header, data, location, first_call):
         """
         Write data to a CSV  file.
     
@@ -24,7 +24,7 @@ class CSVWriter(Writer):
             location: Path to the output CSV file
         """
         try:
-            super().save_data(header, data, location)
+            super().save_data(header, data, location, first_call)
 
             file_exists = os.path.exists(location)
 

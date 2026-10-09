@@ -33,7 +33,7 @@ class CalScraper(Scraper):
         'Race Date',
         'Race Winner'
     ]
-    PATH = os.path.join('.', 'data', 'f1_calendar.csv')
+    PATH = os.path.join('.', 'data', 'f1_calendar.{}')
 
     def scrape(self):
         year = datetime.date.today().year

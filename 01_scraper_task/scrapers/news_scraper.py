@@ -28,7 +28,7 @@ class NewsScraper(Scraper):
         'Article Time',
         'Article Link'
     ]
-    PATH = os.path.join('.', 'data', 'f1_news.csv')
+    PATH = os.path.join('.', 'data', 'f1_news.{}')
 
     def scrape(self):
         response = requests.get(self.URL, timeout=10)

@@ -7,15 +7,14 @@ class Writer(ABC):
     """
     Abstract base class for all the different format writes.
     """
-    first_call = True
 
     @abstractmethod
-    def save_data(self, header, data, location):
+    def save_data(self, header, data, location, first_call):
         """
         Save data to a chosen location in a specific format.
         """
-        if self.first_call:
-            self.first_call = False
+        if first_call:
+            first_call = False
 
             folder = os.path.dirname(location)
 

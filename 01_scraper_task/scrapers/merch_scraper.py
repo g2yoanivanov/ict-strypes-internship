@@ -26,7 +26,7 @@ class MerchScraper(Scraper):
         'Item Price',
         'Item Link'
     ]
-    PATH = os.path.join('.', 'data', 'f1_merch.csv')
+    PATH = os.path.join('.', 'data', 'f1_merch.{}')
 
     def scrape(self):
         result = []
