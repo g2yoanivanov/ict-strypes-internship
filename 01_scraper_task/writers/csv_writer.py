@@ -1,3 +1,7 @@
+"""
+CSV Writer implementation.
+"""
+
 import csv
 import os
 

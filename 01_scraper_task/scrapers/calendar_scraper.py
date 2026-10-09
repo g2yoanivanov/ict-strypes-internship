@@ -1,12 +1,16 @@
-from bs4 import BeautifulSoup
+"""
+Formula 1 calendar scraper implementation.
+"""
+
 from itertools import zip_longest
-import requests
 import os
 import datetime
-
-from .scraper import Scraper
+import requests
+from bs4 import BeautifulSoup
 
 from exceptions.scraping_exception import ScrapingException
+
+from .scraper import Scraper
 
 
 class CalScraper(Scraper):
@@ -31,22 +35,18 @@ class CalScraper(Scraper):
     ]
     PATH = os.path.join('.', 'data', 'f1_calendar.csv')
 
-    def __init__(self):
-        super().__init__()
-
     def scrape(self):
         year = datetime.date.today().year
         result = []
 
         while True:
-            response = requests.get(self.URL.format(year))
+            response = requests.get(self.URL.format(year), timeout=10)
 
             if response.status_code == 404:
                 break
 
-            else:
-                response.raise_for_status()
-            
+            response.raise_for_status()
+
             soup = BeautifulSoup(response.text, 'lxml')
 
             races = soup.select_one('.f1fs-race-calendar')
@@ -76,7 +76,7 @@ class CalScraper(Scraper):
                     f'Winners: {len(winners)} '
                 )
 
-            elif len(grand_prix) == len(circuits) == len(dates):
+            if len(grand_prix) == len(circuits) == len(dates):
                 self.stats['records'] += len(grand_prix)
 
                 records = list(zip_longest(grand_prix, circuits, dates, winners, fillvalue='TBD'))

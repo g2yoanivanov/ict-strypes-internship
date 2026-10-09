@@ -1,3 +1,7 @@
+"""
+CLI implementation.
+"""
+
 from scrapers.news_scraper import NewsScraper
 from scrapers.calendar_scraper import CalScraper
 from scrapers.merch_scraper import MerchScraper
@@ -18,6 +22,9 @@ INFO = "Options:\n" \
 
 
 def get_user_input():
+    """
+    Get user's choice (site to scrape ot exit).
+    """
     while True:
         try:
             print(INFO)
@@ -26,7 +33,7 @@ def get_user_input():
 
             if option not in ['0', '1', '2', '3']:
                 raise ValueError
-            
+
         except ValueError:
             print()
             print('Invalid option')
@@ -37,6 +44,13 @@ def get_user_input():
 
 
 def main():
+    """
+    Run the scraper application.
+
+    Displays the user menu, executes the selected scraper,
+    saves the extracted data to a file, and prints a
+    summary of the scraping results.
+    """
     writer = CSVWriter()
 
     session_stats = {
@@ -45,6 +59,7 @@ def main():
         'merch': None
     }
 
+    stat_key = None
     successful_scrape = False
     total_records = 0
 
@@ -58,7 +73,7 @@ def main():
             scraper = None
 
             option = get_user_input()
-            
+
             if option == '0':
                 print('Session summary:')
                 for _, val in session_stats.items():
@@ -98,7 +113,7 @@ def main():
             print(scraper)
             print(f'Records extracted: {scraper.stats['records']}')
             total_records += scraper.stats['records']
-                
+    
             print()
 
         except requests.RequestException as e:

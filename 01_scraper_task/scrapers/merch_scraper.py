@@ -1,10 +1,14 @@
-from bs4 import BeautifulSoup
-import requests
-import os
+"""
+Formula 1 Merchendise scraper implementation.
+"""
 
-from .scraper import Scraper
+import os
+import requests
+from bs4 import BeautifulSoup
 
 from exceptions.scraping_exception import ScrapingException
+
+from .scraper import Scraper
 
 
 class MerchScraper(Scraper):
@@ -24,21 +28,18 @@ class MerchScraper(Scraper):
     ]
     PATH = os.path.join('.', 'data', 'f1_merch.csv')
 
-    def __init__(self):
-        super().__init__()
-
     def scrape(self):
         result = []
         page = 1
 
         while True:
-            response = requests.get(self.URL.format(page))
+            response = requests.get(self.URL.format(page), timeout=10)
 
             if response.status_code == 404:
                 break
 
-            else:
-                response.raise_for_status()
+
+            response.raise_for_status()
 
             soup = BeautifulSoup(response.text, 'lxml')
 
@@ -51,7 +52,7 @@ class MerchScraper(Scraper):
             for tag in section.select('._product-price-old'):
                 tag.decompose()
 
-            # If the item is discounted ignore the discount value 
+            # If the item is discounted ignore the discount value
             # (The difference between the original and the discounted price)
             for tag in section.select('._product-discount._product-discount-fixed'):
                 tag.decompose()
