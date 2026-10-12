@@ -48,34 +48,42 @@ def get_user_input():
             return option
 
 def get_extension():
+    """
+    Get user's wanted file format.
+    """
     while True:
         try:
             print(EXTENSIONS)
             option = input('Enter a number: ')
             print()
-    
+
             if option not in ['1', '2']:
                 raise ValueError
-    
+
         except ValueError:
             print()
             print('Invalid option')
             print()
-    
+
         else:
             if option == '1':
                 return 'csv'
 
-            elif option == '2':
+            if option == '2':
                 return 'json'
 
 
 def create_writer(extension):
+    """
+    Create Writer object based on the selected file format.
+    """
     if extension == 'csv':
         return CSVWriter()
 
     if extension == 'json':
         return JSONWriter()
+
+    raise ValueError('Invalid extension format selected')
 
 
 def main():
@@ -88,7 +96,6 @@ def main():
     """
     session_summary = []
 
-    stat_key = None
     successful_scrape = False
     total_records = 0
 
@@ -104,10 +111,10 @@ def main():
             scraper = None
 
             option = get_user_input()
-            
+
             if option == '0':
                 print('Session summary:')
-                for scrape_info in session_summary: 
+                for scrape_info in session_summary:
                     print(scrape_info)
                     print()
 
@@ -138,12 +145,12 @@ def main():
             print()
             print('Done!')
             print()
-            
+
             print('Summary:')
             print(scraper)
             print(f'Records extracted: {scraper.stats['records']}')
             total_records += scraper.stats['records']
-    
+
             print()
 
         except requests.RequestException as e:
