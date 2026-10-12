@@ -86,14 +86,8 @@ def main():
     saves the extracted data to a file, and prints a
     summary of the scraping results.
     """
-    #TODO: Change to session_summary = []
-    session_stats = {
-        'news': None,
-        'calendar': None,
-        'merch': None
-    }
+    session_summary = []
 
-    #TODO: stat_key is not needed
     stat_key = None
     successful_scrape = False
     total_records = 0
@@ -113,12 +107,9 @@ def main():
             
             if option == '0':
                 print('Session summary:')
-                #TODO: for x in session_summary: print(x)
-                # And remove the session_stats logic
-                for _, val in session_stats.items():
-                    if val is not None:
-                        print(val)
-                        print()
+                for scrape_info in session_summary: 
+                    print(scrape_info)
+                    print()
 
                 print(f'Total records extracted: {total_records}')
                 break
@@ -128,15 +119,12 @@ def main():
 
             if option == '1':
                 scraper = NewsScraper(extension)
-                stat_key = 'news'
 
             elif option == '2':
                 scraper = CalScraper(extension)
-                stat_key = 'calendar'
 
             elif option == '3':
                 scraper = MerchScraper(extension)
-                stat_key = 'merch'
 
             print('Extracting data...')
 
@@ -150,8 +138,8 @@ def main():
             print()
             print('Done!')
             print()
+            
             print('Summary:')
-
             print(scraper)
             print(f'Records extracted: {scraper.stats['records']}')
             total_records += scraper.stats['records']
@@ -175,8 +163,7 @@ def main():
 
         finally:
             if successful_scrape:
-                #TODO: Change to session_summary.appen(str(scraper))
-                session_stats[stat_key] = str(scraper)
+                session_summary.append(str(scraper))
 
             if first_call:
                 first_call = False

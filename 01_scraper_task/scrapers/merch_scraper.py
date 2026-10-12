@@ -81,3 +81,11 @@ class MerchScraper(Scraper):
             page += 1
 
         return result
+
+
+    def __str__(self):
+        # Scraping from page 1 (URL argument)
+        info = f"Site scraped: {self.URL.format(1)}\n"
+        info += super().__str__()
+
+        return info

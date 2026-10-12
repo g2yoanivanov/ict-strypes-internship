@@ -78,3 +78,10 @@ class NewsScraper(Scraper):
             f'titles: {len(titles)} '
             f'links: {len(links)} '
         )
+
+
+    def __str__(self):
+        info = f"Site scraped: {self.URL}\n"
+        info += super().__str__()
+
+        return info

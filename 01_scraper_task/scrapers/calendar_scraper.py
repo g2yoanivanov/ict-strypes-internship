@@ -93,3 +93,11 @@ class CalScraper(Scraper):
             year -= 1
 
         return result
+
+
+    def __str__(self):
+        # Scraping from year 2026 (URL argument)
+        info = f"Site scraped: {self.URL.format(2026)}\n"
+        info += super().__str__()
+
+        return info

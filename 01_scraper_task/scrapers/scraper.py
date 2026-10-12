@@ -27,8 +27,7 @@ class Scraper(ABC):
             for data in self.DATA_TYPE
         )
 
-        info = f"Site scraped: {self.URL}\n" \
-        f"File location: {self.PATH.format(self.extension)}\n" \
+        info = f"File location: {self.PATH.format(self.extension)}\n" \
         f"Data types extracted:\n" \
         f"{data_type_str}"
 
