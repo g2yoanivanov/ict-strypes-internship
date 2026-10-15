@@ -96,7 +96,6 @@ def main():
     """
     session_summary = []
 
-    successful_scrape = False
     total_records = 0
 
     first_call = True
@@ -104,6 +103,8 @@ def main():
     print('SCRAPING F1')
     print()
     while True:
+        successful_scrape = False
+
         try:
             data = None
             header = None
